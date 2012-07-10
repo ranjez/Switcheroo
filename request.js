@@ -1,4 +1,3 @@
-var isActive = false;
 var rules = [];
 
 chrome.webRequest.onBeforeRequest.addListener(function(details) {
@@ -21,20 +20,6 @@ function redirectToMatchingRule(details) {
 	}
 }
 
-chrome.browserAction.onClicked.addListener(function() {
-	if (isActive) {
-		chrome.browserAction.setIcon({
-			path : "on.png"
-		});
-	} else {
-		chrome.browserAction.setIcon({
-			path : "off.png"
-		});
-	}
-
-	isActive = !isActive;
-});
-
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 	if ( typeof request.rule !== 'undefined') {
 		rules.push(request.rule);
@@ -47,6 +32,11 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 			rules : this.rules
 		});
 	} else if ( typeof request.getRules !== 'undefined') {
+		sendResponse({
+			rules : this.rules
+		});
+	} else if ( typeof request.removeIndex !== 'undefined') {
+		rules.splice(request.removeIndex);
 		sendResponse({
 			rules : this.rules
 		});

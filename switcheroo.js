@@ -7,7 +7,7 @@ function refreshRules() {
 	for (var i = 0; i < rules.length; i++) {
 		var rule = rules[i];
 		var li = $('<li />');
-		li.append('<span class="from">' + rule.from + '</span> <span class="to">' + rule.to + '</span>')
+		li.append('<span class="from">' + rule.from + '</span> <span class="to">' + rule.to + '</span> <a href="#" data-rule_index="' + i + '" class="removeRuleButton">Remove</a>')
 		rulesUl.append(li);
 	}
 }
@@ -36,6 +36,16 @@ function removeAllRules() {
 	});
 }
 
+function removeRule(index) {
+	
+	chrome.extension.sendMessage({
+		removeIndex : index
+	}, function(response) {
+		rules = response.rules;
+		refreshRules();
+	});
+}
+
 
 $(document).ready(function() {
 	rulesUl = $('#rules');
@@ -54,5 +64,10 @@ $(document).ready(function() {
 	
 	$('#removeAllRulesButton').click(function() {
 		removeAllRules();
+	});
+	
+	$('#rules').delegate('.removeRuleButton', 'click', function() {
+		console.log(this);
+		removeRule(parseInt($(this).attr('data-rule_index')));
 	});
 });
