@@ -6,7 +6,7 @@ function refreshRules() {
 
 	for (var i = 0; i < rules.length; i++) {
 		var rule = rules[i];
-		var li = $('<li />');
+		var li = $('<li class="' + rule.type + '"/>');
 		li.append('<span class="from">' + rule.from + '</span> <span class="to">' + rule.to + '</span> <a href="#" data-rule_index="' + i + '" class="removeRuleButton">Remove</a>')
 		rulesUl.append(li);
 	}
@@ -15,7 +15,8 @@ function refreshRules() {
 function addRule() {
 	var newRule = {
 		from : newRuleDiv.children('#fromInput').val(),
-		to : newRuleDiv.children('#toInput').val()
+		to : newRuleDiv.children('#toInput').val(),
+		type: newRuleDiv.children('#ruleTypeSelect').val()
 	};
 
 	chrome.extension.sendMessage({

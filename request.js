@@ -13,9 +13,16 @@ function redirectToMatchingRule(details) {
 	for (var i = 0; i < rules.length; i++) {
 		var rule = rules[i];
 		if (details.url.match(rule.from)) {
-			return {
-				redirectUrl : rule.to
-			};
+			if (rule.type == 'Switch') {
+				return {
+					redirectUrl : rule.to
+				};
+			}
+			else{
+				return{
+					redirectUrl : details.url.replace(rule.from, rule.to)
+				};
+			}
 		}
 	}
 }

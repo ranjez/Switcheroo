@@ -5,6 +5,7 @@
 		<style>
 			body{width:600px;}
 			#new-rule input[type=text]{width:250px;}
+			.Replace {background-color: #ddd;}
 		</style>
 		<script type="text/javascript" src="jquery.js"></script>
 		<script type="text/javascript" src="switcheroo.js"></script>
@@ -14,6 +15,10 @@
 		<div id="new-rule">
 			<input type="text" id="fromInput" name="fromInput" />
 			<input type="text" id="toInput" name="toInput" />
+			<select id="ruleTypeSelect" name="ruleType">
+				<option>Replace</option>
+				<option>Switch</option>
+			</select>
 			<input id="addRuleButton" type="button" value="Add" name="AddRule" />
 		</div>
 		<div>
