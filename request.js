@@ -12,7 +12,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 function redirectToMatchingRule(details) {
 	for (var i = 0; i < rules.length; i++) {
 		var rule = rules[i];
-		if (details.url.match(rule.from)) {
+		if (rule.isActive && details.url.indexOf(rule.from) > -1) {
 			if (rule.type == 'Switch') {
 				return {
 					redirectUrl : rule.to
@@ -42,8 +42,18 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 		sendResponse({
 			rules : this.rules
 		});
+	} else if ( typeof request.toggleIndex !== 'undefined') {
+		rules[request.toggleIndex].isActive = !rules[request.toggleIndex].isActive;
+		sendResponse({
+			rules : this.rules
+		});
+	} else if ( typeof request.editIndex !== 'undefined') {
+		rules[request.editIndex] = request.updatedRule;
+		sendResponse({
+			rules : this.rules
+		});
 	} else if ( typeof request.removeIndex !== 'undefined') {
-		rules.splice(request.removeIndex);
+		rules.splice(request.removeIndex, 1);
 		sendResponse({
 			rules : this.rules
 		});
