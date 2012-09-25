@@ -13,16 +13,9 @@ function redirectToMatchingRule(details) {
 	for (var i = 0; i < rules.length; i++) {
 		var rule = rules[i];
 		if (rule.isActive && details.url.indexOf(rule.from) > -1) {
-			if (rule.type == 'Switch') {
-				return {
-					redirectUrl : rule.to
-				};
-			}
-			else{
-				return{
-					redirectUrl : details.url.replace(rule.from, rule.to)
-				};
-			}
+			return{
+				redirectUrl : details.url.replace(rule.from, rule.to)
+			};
 		}
 	}
 }

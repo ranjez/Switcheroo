@@ -10,17 +10,19 @@
 			.Replace {background-color: #ddd;}
 		</style>
 		<script type="text/javascript" src="jquery.js"></script>
-		<script type="text/javascript" src="switcheroo.js"></script>
+		<script type="text/javascript" async src="switcheroo.js"></script>
 	</head>
 	<body>
 		<ul id="rules"></ul>
-		<div id="new-rule">
-			From: <input type="text" id="fromInput" name="fromInput" />
-			To: <input type="text" id="toInput" name="toInput" />
-			<input id="addRuleButton" type="button" value="Add" name="AddRule" />
-		</div>
-		<div>
-			<input id="removeAllRulesButton" type="button" value="Remove All" name="RemoveAll" />
-		</div>
+		<form>
+			<div id="new-rule">
+				From: <input type="text" id="fromInput" name="fromInput" />
+				To: <input type="text" id="toInput" name="toInput" />
+				<input id="addRuleButton" type="button" value="Add" name="AddRule" />
+			</div>
+			<div>
+				<input id="removeAllRulesButton" type="button" value="Remove All" name="RemoveAll" />
+			</div>
+		</form>
 	</body>
 </html>

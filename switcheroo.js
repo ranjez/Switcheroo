@@ -150,5 +150,7 @@ $(document).ready(function() {
 		var editIndex = parseInt(ruleParent.attr('data-rule_index'));
 
 		convertRuleToEditMode(ruleParent, editIndex);
-	});
+	});	
+
+	$('#fromInput').focus();
 });
