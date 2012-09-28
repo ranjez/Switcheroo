@@ -50,5 +50,9 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 		sendResponse({
 			rules : this.rules
 		});
+	} else if ( typeof request.getIndex !== 'undefined') {
+		sendResponse({
+			rule : rules[request.getIndex]
+		});
 	}
 });

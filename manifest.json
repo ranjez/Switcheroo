@@ -1,8 +1,8 @@
 {
-	"name": "Switcheroo",
+	"name": "Switcheroo Redirector",
 	"version": "1.1",
 	"manifest_version": 2,
-	"description": "Setup manual redirect rules for any http request i.e pages, scripts, images etc.",
+	"description": "Setup custom redirect rules for any http request i.e pages, scripts, images etc.",
 	"browser_action": {
 		"default_icon": "switch-browser.png",
 		"default_title": "Add switcheroo rules.",

@@ -1,23 +1,33 @@
 <!doctype html>
 <html>
 	<head>
-		<title>Switcheroo</title>
+		<title>Switcheroo Redirector</title>
 		<style>
 			body{width:650px; font-family: sans-serif;}
 			a, span {padding: 10px;}
-			ul { list-style-type: none; padding: 0; }
-			#new-rule input[type=text]{width:250px;}
-			.Replace {background-color: #ddd;}
+			ul { list-style-type: none; padding: 0; margin: 0 0 5px 0;}
+			#new-rule input[type=text], .edit-rule input[type=text]{width:220px; margin: 0 5px;}
+			.from, .to { font-family: monospace; width: 220px; display: inline-block; }
+			.seperator { font-weight: bold; color: red; }
+			#headings span { font-family: Arial; font-weight: bold; }
+			#no-rules { text-align: center; color: #666; }
+			.switcheroo {color: red;}
+			#removeAllRulesButton { margin: 10px; }
+			#new-rule, .edit-rule { margin-left: 3px; }
+			.edit-rule .seperator {padding-right: 18px;}
 		</style>
 		<script type="text/javascript" src="jquery.js"></script>
 		<script type="text/javascript" async src="switcheroo.js"></script>
 	</head>
 	<body>
+		<div id="headings"><span class="from">From</span><span class="seperator">&nbsp;</span><span class="to">To</span></div>
+		<p id="no-rules">You have no redirect rules at the moment so why don't you go ahead and <em class="switcheroo">Switcheroo</em>.</p>
 		<ul id="rules"></ul>
 		<form>
 			<div id="new-rule">
-				From: <input type="text" id="fromInput" name="fromInput" />
-				To: <input type="text" id="toInput" name="toInput" />
+				<input type="text" id="fromInput" name="fromInput" />
+				<span class="seperator">&gt;</span>
+				<input type="text" id="toInput" name="toInput" />
 				<input id="addRuleButton" type="button" value="Add" name="AddRule" />
 			</div>
 			<div>
