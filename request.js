@@ -1,4 +1,11 @@
-var rules = [];
+var rules;
+
+if(localStorage['rules']){
+	rules = JSON.parse(localStorage['rules']);
+}
+else{
+	rules = [];
+}
 
 chrome.webRequest.onBeforeRequest.addListener(function(details) {
 	/*if(isActive && isJqueryMinified(details)){
@@ -23,11 +30,13 @@ function redirectToMatchingRule(details) {
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 	if ( typeof request.rule !== 'undefined') {
 		rules.push(request.rule);
+		updateLocalStorage(rules);
 		sendResponse({
 			rules : this.rules
 		});
 	} else if ( typeof request.removeAllRules !== 'undefined') {
 		rules = [];
+		updateLocalStorage(rules)
 		sendResponse({
 			rules : this.rules
 		});
@@ -37,16 +46,19 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 		});
 	} else if ( typeof request.toggleIndex !== 'undefined') {
 		rules[request.toggleIndex].isActive = !rules[request.toggleIndex].isActive;
+		updateLocalStorage(rules);
 		sendResponse({
 			rules : this.rules
 		});
 	} else if ( typeof request.editIndex !== 'undefined') {
 		rules[request.editIndex] = request.updatedRule;
+		updateLocalStorage(rules);
 		sendResponse({
 			rules : this.rules
 		});
 	} else if ( typeof request.removeIndex !== 'undefined') {
 		rules.splice(request.removeIndex, 1);
+		updateLocalStorage(rules);
 		sendResponse({
 			rules : this.rules
 		});
@@ -56,3 +68,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 		});
 	}
 });
+
+function updateLocalStorage(rules){
+	localStorage['rules'] = JSON.stringify(rules);
+}
