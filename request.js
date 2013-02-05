@@ -8,9 +8,6 @@ else{
 }
 
 chrome.webRequest.onBeforeRequest.addListener(function(details) {
-	/*if(isActive && isJqueryMinified(details)){
-	 return {redirectUrl: "http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"};
-	 }*/
 	return redirectToMatchingRule(details);
 }, {
 	urls : ["<all_urls>"]
