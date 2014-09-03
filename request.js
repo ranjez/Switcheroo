@@ -16,14 +16,13 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 }, ["blocking"]);
 
 function redirectToMatchingRule(details) {
-	for (var i = 0; i < rules.length; i++) {
-		var rule = rules[i];
-		if (rule.isActive && details.url.indexOf(rule.from) > -1 && details.requestId !== lastRequestId ) {
-			lastRequestId = details.requestId;
-			return{
+	var rule = _find(rules, function(item){ return rule.isActive && details.url.indexOf(rule.from) > -1 && details.requestId !== lastRequestId; }));
+
+	if(rule){
+		lastRequestId = details.requestId;
+		return {
 				redirectUrl : details.url.replace(rule.from, rule.to)
 			};
-		}
 	}
 }
 
