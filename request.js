@@ -16,7 +16,11 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
 }, ["blocking"]);
 
 function redirectToMatchingRule(details) {
-	var rule = _find(rules, function(item){ return rule.isActive && details.url.indexOf(rule.from) > -1 && details.requestId !== lastRequestId; }));
+	var rule = _.find(rules, function(rule){ 
+		return rule.isActive 
+			&& details.url.indexOf(rule.from) > -1 
+			&& details.requestId !== lastRequestId; 
+	});
 
 	if(rule){
 		lastRequestId = details.requestId;
@@ -26,11 +30,23 @@ function redirectToMatchingRule(details) {
 	}
 }
 
-chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+chrome.extension.onMessage.addListener(messageHandler);
+
+function messageHandler(request, sender, sendResponse) {
+	request.updateRules(rules);
+	updateLocalStorage(rules);
+	sendResponse({ rules : this.rules });
+}
+
+function messageHandler(request, sender, sendResponse) {
+
+
 	if ( typeof request.rule !== 'undefined') {
 		rules.push(request.rule);
 		updateLocalStorage(rules);
 		sendResponse({
+
+
 			rules : this.rules
 		});
 	} else if ( typeof request.removeAllRules !== 'undefined') {
@@ -66,7 +82,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 			rule : rules[request.getIndex]
 		});
 	}
-});
+}
 
 function updateLocalStorage(rules){
 	localStorage['rules'] = JSON.stringify(rules);
