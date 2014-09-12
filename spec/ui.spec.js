@@ -31,15 +31,18 @@ describe("Switcheroo", function(){
 
 		it('should add a new rule when add button is clicked', function(){
 			givenRuleAdded('abc', 'def');
-			expect(scope.rules).toBe([{from: 'abc', to:'def', isActive:true }]);
+			expect(scope.rules).toEqual([{from: 'abc', to:'def', isActive:true }]);
 		});
 
 		it('should remove all rules when we click remove all button', function(){
 			givenRuleAdded('abc', 'def');
 			givenRuleAdded('uvw', 'xyz');
-			expect(scope.rules).toBe(2);
-			sut.clear();
-			expect(scope.rules).toBe(0);
+			expect(scope.rules).toEqual([
+				{from: 'abc', to:'def', isActive:true },
+				{from: 'uvw', to:'xyz', isActive:true },
+			]);
+			scope.clear();
+			expect(scope.rules).toEqual([]);
 		});
 
 		it('should be able to edit rules', function(){
