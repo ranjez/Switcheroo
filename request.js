@@ -2,11 +2,13 @@ var
 	rules,
 	lastRequestId;
 
+var rulesManager = new RulesManager();
+
 if(localStorage['rules']){
-	rules = JSON.parse(localStorage['rules']);
+	RulesManager.rules = JSON.parse(localStorage['rules']);
 }
 else{
-	rules = [];
+	RulesManager.rules = [];
 }
 
 chrome.webRequest.onBeforeRequest.addListener(function(details) {

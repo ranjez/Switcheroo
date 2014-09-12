@@ -1,5 +1,4 @@
-<!doctype html>
-<html>
+<html ng-app="switcheroo">
 	<head>
 		<title>Switcheroo Redirector</title>
 		<style>
@@ -19,21 +18,35 @@
 		</style>
 		<script type="text/javascript" src="jquery.js"></script>
 		<script type="text/javascript" async src="switcheroo.js"></script>
+		<script type="text/javascript">$(document).ready(new SwitcherooUI().init);</script>
 	</head>
 	<body>
-		<div id="headings"><span class="from">From</span><span class="seperator">&nbsp;</span><span class="to">To</span></div>
-		<p id="no-rules">You have no redirect rules at the moment so why don't you go ahead and <em class="switcheroo">Switcheroo</em>.</p>
-		<ul id="rules"></ul>
-		<form>
-			<div id="new-rule">
-				<input type="text" id="fromInput" name="fromInput" />
-				<span class="seperator">&gt;</span>
-				<input type="text" id="toInput" name="toInput" />
-				<input id="addRuleButton" type="button" value="Add" name="AddRule" />
+		<div id="container" ng-controller="RulesController">
+			<div id="headings">
+				<span class="from">From</span><span class="seperator">&nbsp;</span><span class="to">To</span>
 			</div>
-			<div>
-				<input id="removeAllRulesButton" type="button" value="Remove All" name="RemoveAll" />
-			</div>
-		</form>
+			<p id="no-rules">You have no redirect rules at the moment so why don't you go ahead and <em class="switcheroo">Switcheroo</em>.</p>
+			<ul id="rules" ng-repeat="rule in rules">
+				<li class="true">
+					<span class="from">{{rule.from}}</span>
+					<span class="seperator">&gt;</span>
+					<span class="to">{{rule.to}}</span>
+					<input type="checkbox" class="active" name="active" ng-model="rule.isActive" />
+					<a href="#" class="editRuleButton">Edit</a>
+					<a href="#" class="removeRuleButton" ng-click="remove">Remove</a>
+				</li>
+			</ul>
+			<form>
+				<div id="new-rule">
+					<input type="text" id="fromInput" name="fromInput" ng-model="from" />
+					<span class="seperator">&gt;</span>
+					<input type="text" id="toInput" name="toInput" ng-model="to" />
+					<input id="addRuleButton" type="button" value="Add" name="AddRule" ng-click="add" />
+				</div>
+				<div>
+					<input id="removeAllRulesButton" type="button" value="Remove All" name="RemoveAll" ng-click="clear" />
+				</div>
+			</form>
+		</div>
 	</body>
 </html>

@@ -1,73 +1,72 @@
-describe("rules", function() {
-  var chrome = null;
+describe("switcheroo core tests", function() {
+
+  var sut = null;
 
   beforeEach(function(){
-    chrome = chrome || {
-      proxy: {
-        settings: {
-          get: function() {},
-          clear: function() {},
-          set: function() {}
+    rulesManager = new RulesManager();
+    // SwitcherooUI = {
+    //   getNewRule: function(){}
+    // },
+    chrome = {
+      runtime: {
+        getBackgroundPage: function(){
+          
         }
       },
-      i18n: {
-        getMessage: function(x) { return x; }
-      },
-      extension: {
-        sendRequest: function() {},
-        isAllowedIncognitoAccess: function(funk) {
-          funk(true);
+      webRequest: {
+        onBeforeRequest: {
+          addListener: function(){
+
+          }
         }
       }
     };
+    spyOn(chrome.runtime, 'getBackgroundPage').and.returnValue({ 'rules': [] });
+    sut = new SwitcherooCore();
   });
+
 
   it("should be able to add a rule", function() {
-    rules.
-    expect(player.currentlyPlayingSong).toEqual(song);
+    sut.addRule({from: 'abc', to: 'def', isActive:true });
 
-    //demonstrates use of custom matcher
-    expect(player).toBePlaying(song);
+    expect(sut.rules).toEqual([{from: 'abc', to: 'def', isActive:true }]);
   });
 
-  describe("when song has been paused", function() {
-    beforeEach(function() {
-      player.play(song);
-      player.pause();
-    });
+  it("should be able to remove all rules", function() {
+    sut.addRule({from: 'abc', to: 'def', isActive:true });
+    sut.addRule({from: 'abc', to: 'def', isActive:true });
 
-    it("should indicate that the song is currently paused", function() {
-      expect(player.isPlaying).toBeFalsy();
+    sut.clearRules();
 
-      // demonstrates use of 'not' with a custom matcher
-      expect(player).not.toBePlaying(song);
-    });
-
-    it("should be possible to resume", function() {
-      player.resume();
-      expect(player.isPlaying).toBeTruthy();
-      expect(player.currentlyPlayingSong).toEqual(song);
-    });
+    expect(sut.rules).toEqual([]);
   });
 
-  // demonstrates use of spies to intercept and test method calls
-  it("tells the current song if the user has made it a favorite", function() {
-    spyOn(song, 'persistFavoriteStatus');
+  it("should be able to edit rules", function() {
+    sut.addRule({from: 'abc', to: 'def', isActive:true });
+    sut.addRule({from: 'abc', to: 'def', isActive:true });
 
-    player.play(song);
-    player.makeFavorite();
+    sut.editRule(0, {from: 'xyz', to: 'uuu', isActive: true});
+    sut.editRule(1, {from: 'aaa', to: 'bbb', isActive: false});
 
-    expect(song.persistFavoriteStatus).toHaveBeenCalledWith(true);
+    expect(sut.rules).toEqual([{from: 'xyz', to: 'uuu', isActive: true}, {from: 'aaa', to: 'bbb', isActive: false}]);
   });
 
-  //demonstrates use of expected exceptions
-  describe("#resume", function() {
-    it("should throw an exception if song is already playing", function() {
-      player.play(song);
+  it("should be able to remove rule", function() {
+    sut.addRule({from: 'abc', to: 'def', isActive:true });
+    sut.addRule({from: 'ggg', to: 'hhh', isActive:true });
 
-      expect(function() {
-        player.resume();
-      }).toThrowError("song is already playing");
-    });
+    sut.removeRule(1);
+
+    expect(sut.rules).toEqual([{from: 'abc', to: 'def', isActive: true}]);
+  });
+
+  it("should be able to toggle rule", function() {
+    sut.addRule({from: 'abc', to: 'def', isActive:true });
+    sut.addRule({from: 'ggg', to: 'hhh', isActive:false });
+
+    sut.toggleRule(0);
+    sut.toggleRule(1);
+
+    expect(sut.rules).toEqual([{from: 'abc', to: 'def', isActive: false}, {from: 'ggg', to: 'hhh', isActive: true}]);
   });
 });
