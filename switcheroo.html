@@ -18,7 +18,6 @@
 		</style>
 		<script type="text/javascript" src="jquery.js"></script>
 		<script type="text/javascript" async src="switcheroo.js"></script>
-		<script type="text/javascript">$(document).ready(new SwitcherooUI().init);</script>
 	</head>
 	<body>
 		<div id="container" ng-controller="RulesController">
@@ -36,12 +35,12 @@
 					<a href="#" class="removeRuleButton" ng-click="remove">Remove</a>
 				</li>
 			</ul>
-			<form>
+			<form ng-submit="add()">
 				<div id="new-rule">
-					<input type="text" id="fromInput" name="fromInput" ng-model="from" />
+					<input type="text" id="from" ng-model="from" />
 					<span class="seperator">&gt;</span>
-					<input type="text" id="toInput" name="toInput" ng-model="to" />
-					<input id="addRuleButton" type="button" value="Add" name="AddRule" ng-click="add" />
+					<input type="text" id="to" ng-model="to" />
+					<input id="addRuleButton" type="submit" value="Add" name="AddRule" />
 				</div>
 				<div>
 					<input id="removeAllRulesButton" type="button" value="Remove All" name="RemoveAll" ng-click="clear" />
