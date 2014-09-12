@@ -17,6 +17,7 @@
 			#headings { background-color: #69F; border-radius: 5px 5px 0 0; }
 		</style>
 		<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript" src="angular.js"></script>
 		<script type="text/javascript" async src="switcheroo.js"></script>
 	</head>
 	<body>
@@ -27,12 +28,15 @@
 			<p id="no-rules">You have no redirect rules at the moment so why don't you go ahead and <em class="switcheroo">Switcheroo</em>.</p>
 			<ul id="rules" ng-repeat="rule in rules">
 				<li class="true">
-					<span class="from">{{rule.from}}</span>
+					<span class="from" ng-hide="isEditing">{{rule.from}}</span>
+					<input type="text" ng-show="isEditing" id="from" ng-model="editFrom" />
 					<span class="seperator">&gt;</span>
-					<span class="to">{{rule.to}}</span>
+					<span class="to" ng-hide="isEditing">{{rule.to}}</span>
+					<input type="text" ng-show="isEditing" id="from" ng-model="editTo" />
 					<input type="checkbox" class="active" name="active" ng-model="rule.isActive" />
-					<a href="#" class="editRuleButton">Edit</a>
-					<a href="#" class="removeRuleButton" ng-click="remove">Remove</a>
+					<a href="#" class="editRuleButton" ng-click="isEditing = true" ng-hide="isEditing">Edit</a>
+					<a href="#" class="updateRuleButton" ng-click="update($index)" ng-show="isEditing">Edit</a>
+					<a href="#" class="removeRuleButton" ng-click="remove($index)">Remove</a>
 				</li>
 			</ul>
 			<form ng-submit="add()">

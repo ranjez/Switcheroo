@@ -48,9 +48,16 @@ describe("Switcheroo", function(){
 		it('should be able to edit rules', function(){
 			givenRuleAdded('abc', 'def');
 			givenRuleAdded('uvw', 'xyz');
-			$('.editRuleButton:eq(0)').click();
-			expect($('.edit-rule .fromInput')).toHaveValue('abc');
-			expect($('.edit-rule .toInput')).toHaveValue('def');
+			
+			scope.editFrom = "yyy";
+			scope.editTo = "zzz";
+
+			scope.edit(1);
+
+			expect(scope.rules).toEqual([
+				{from: 'abc', to:'def', isActive:true },
+				{from: 'yyy', to:'zzz', isActive:true },
+			]);
 		});
 
 		function givenRuleAdded(from, to){

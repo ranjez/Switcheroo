@@ -10,8 +10,10 @@ angular.module('switcheroo', [])
 		  });
 	    };
 
-	    $scope.edit = function(index, rule) {
-			$scope.rules[index] = rule;
+	    $scope.edit = function(index) {
+			var rule = $scope.rules[index];
+			rule.from = $scope.editFrom;
+			rule.to = $scope.editTo;
 		};
 
 		$scope.remove = function(index) {
