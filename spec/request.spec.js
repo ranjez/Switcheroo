@@ -1,18 +1,30 @@
-describe("switcheroo core tests", function() {
+var RuleMatcher = function(rules){
+  var lastRequestId;
+
+  this.rules = rules;
+
+  this.redirectOnMatch = function(request){
+    var rule = _.find(rules, function(rule){ 
+      return rule.isActive 
+        && request.url.indexOf(rule.from) > -1 
+        && request.requestId !== lastRequestId; 
+    });
+
+    if(rule){
+      lastRequestId = request.requestId;
+      return {
+        redirectUrl : request.url.replace(rule.from, rule.to)
+      };
+    }
+  };
+}
+
+describe("rule matcher", function() {
 
   var sut = null;
 
   beforeEach(function(){
-    rulesManager = new RulesManager();
-    // SwitcherooUI = {
-    //   getNewRule: function(){}
-    // },
     chrome = {
-      runtime: {
-        getBackgroundPage: function(){
-          
-        }
-      },
       webRequest: {
         onBeforeRequest: {
           addListener: function(){
@@ -21,52 +33,74 @@ describe("switcheroo core tests", function() {
         }
       }
     };
-    spyOn(chrome.runtime, 'getBackgroundPage').and.returnValue({ 'rules': [] });
-    sut = new SwitcherooCore();
+  });
+
+  it('given no rules then do not return a redirect url', function(){
+    sut = new RuleMatcher([]);
+
+    var request = givenRequest(1, 'http://test.com');
+
+    expect(sut.redirectOnMatch(request)).toBeUndefined();
+  });
+
+  it('given request url should redirect to matching rule', function(){
+    sut = new RuleMatcher([
+      givenRule('aaa', 'bbb', true)
+    ]);
+
+    var request = givenRequest(1, 'http://aaa.com');
+
+    expect(sut.redirectOnMatch(request)).toEqual({ redirectUrl: 'http://bbb.com' });
   });
 
 
-  it("should be able to add a rule", function() {
-    sut.addRule({from: 'abc', to: 'def', isActive:true });
+  it('given request url should redirect to first matching rule', function(){
+    sut = new RuleMatcher([
+      givenRule('foo', 'bar', true),
+      givenRule('food', 'bbb', true)
+    ]);
 
-    expect(sut.rules).toEqual([{from: 'abc', to: 'def', isActive:true }]);
+    var request = givenRequest(1, 'http://food.com');
+
+    expect(sut.redirectOnMatch(request)).toEqual({ redirectUrl: 'http://bard.com' });
   });
 
-  it("should be able to remove all rules", function() {
-    sut.addRule({from: 'abc', to: 'def', isActive:true });
-    sut.addRule({from: 'abc', to: 'def', isActive:true });
+  it('given request url should redirect to first matching active rule', function(){
+    sut = new RuleMatcher([
+      givenRule('foo', 'bar', false),
+      givenRule('food', 'bbb', true)
+    ]);
 
-    sut.clearRules();
+    var request = givenRequest(1, 'http://food.com');
 
-    expect(sut.rules).toEqual([]);
+    expect(sut.redirectOnMatch(request)).toEqual({ redirectUrl: 'http://bbb.com' });
   });
 
-  it("should be able to edit rules", function() {
-    sut.addRule({from: 'abc', to: 'def', isActive:true });
-    sut.addRule({from: 'abc', to: 'def', isActive:true });
+  it('given request url should redirect to matching rule but not if the request ids match', function(){
+    sut = new RuleMatcher([
+      givenRule('a', 'aa', true)
+    ]);
 
-    sut.editRule(0, {from: 'xyz', to: 'uuu', isActive: true});
-    sut.editRule(1, {from: 'aaa', to: 'bbb', isActive: false});
+    var request = givenRequest(1, 'http://a.com');
+    var response = sut.redirectOnMatch(request);
 
-    expect(sut.rules).toEqual([{from: 'xyz', to: 'uuu', isActive: true}, {from: 'aaa', to: 'bbb', isActive: false}]);
+    request = givenRequest(1, response.redirectUrl);
+
+    expect(sut.redirectOnMatch(request)).toBeUndefined();
   });
 
-  it("should be able to remove rule", function() {
-    sut.addRule({from: 'abc', to: 'def', isActive:true });
-    sut.addRule({from: 'ggg', to: 'hhh', isActive:true });
+  function givenRequest(id, url){
+    return {
+      requestId: id,
+      url: url
+    };
+  }
 
-    sut.removeRule(1);
-
-    expect(sut.rules).toEqual([{from: 'abc', to: 'def', isActive: true}]);
-  });
-
-  it("should be able to toggle rule", function() {
-    sut.addRule({from: 'abc', to: 'def', isActive:true });
-    sut.addRule({from: 'ggg', to: 'hhh', isActive:false });
-
-    sut.toggleRule(0);
-    sut.toggleRule(1);
-
-    expect(sut.rules).toEqual([{from: 'abc', to: 'def', isActive: false}, {from: 'ggg', to: 'hhh', isActive: true}]);
-  });
+  function givenRule(from, to, isActive){
+    return {
+      from: from,
+      to: to,
+      isActive: isActive
+    };
+  }
 });

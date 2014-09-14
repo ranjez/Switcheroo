@@ -14,6 +14,7 @@ chrome = {
     }
   }
 };
+
 describe("Switcheroo", function(){
 	var sut, scope;
 	beforeEach(function(){
@@ -45,18 +46,14 @@ describe("Switcheroo", function(){
 			expect(scope.rules).toEqual([]);
 		});
 
-		it('should be able to edit rules', function(){
+		it('should be able to remove rules', function(){
 			givenRuleAdded('abc', 'def');
 			givenRuleAdded('uvw', 'xyz');
-			
-			scope.editFrom = "yyy";
-			scope.editTo = "zzz";
 
-			scope.edit(1);
+			scope.remove(1);
 
 			expect(scope.rules).toEqual([
-				{from: 'abc', to:'def', isActive:true },
-				{from: 'yyy', to:'zzz', isActive:true },
+				{from: 'abc', to:'def', isActive:true }
 			]);
 		});
 
