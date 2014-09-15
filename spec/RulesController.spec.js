@@ -1,20 +1,3 @@
-chrome = {
-  runtime: {
-    getBackgroundPage: function(){
-    	return {
-    		rules: []
-    	}
-    }
-  },
-  webRequest: {
-    onBeforeRequest: {
-      addListener: function(){
-
-      }
-    }
-  }
-};
-
 describe("Switcheroo", function(){
 	var sut, scope;
 	beforeEach(function(){
@@ -55,6 +38,16 @@ describe("Switcheroo", function(){
 			expect(scope.rules).toEqual([
 				{from: 'abc', to:'def', isActive:true }
 			]);
+		});
+
+		it('should be able to shorten rules for display', function(){
+			expect(scope.shortenText('123456789012345678901234567890')).toEqual('1234567890123456789012345...');
+			expect(scope.shortenText('1234567890123456789012345')).toEqual('1234567890123456789012345');
+		});
+
+		it('should save rules to localStorage', function(){
+			givenRuleAdded('abc', 'def');
+			expect(localStorage['rules']).toEqual([{from: 'abc', to:'def', isActive:true }]);
 		});
 
 		function givenRuleAdded(from, to){

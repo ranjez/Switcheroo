@@ -1,39 +1,6 @@
-var RuleMatcher = function(rules){
-  var lastRequestId;
-
-  this.rules = rules;
-
-  this.redirectOnMatch = function(request){
-    var rule = _.find(rules, function(rule){ 
-      return rule.isActive 
-        && request.url.indexOf(rule.from) > -1 
-        && request.requestId !== lastRequestId; 
-    });
-
-    if(rule){
-      lastRequestId = request.requestId;
-      return {
-        redirectUrl : request.url.replace(rule.from, rule.to)
-      };
-    }
-  };
-}
-
-describe("rule matcher", function() {
+describe("RuleMatcher", function() {
 
   var sut = null;
-
-  beforeEach(function(){
-    chrome = {
-      webRequest: {
-        onBeforeRequest: {
-          addListener: function(){
-
-          }
-        }
-      }
-    };
-  });
 
   it('given no rules then do not return a redirect url', function(){
     sut = new RuleMatcher([]);
