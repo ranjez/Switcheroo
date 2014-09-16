@@ -1,7 +1,8 @@
+<!doctype html>
 <html ng-app="switcheroo" ng-csp>
 	<head>
 		<title>Switcheroo Redirector</title>
-		<link rel="stylesheet" type="text/css" href="styles.css">>
+		<link rel="stylesheet" type="text/css" href="styles.css">
 		<script type="text/javascript" src="lib/angular.js"></script>
 		<script type="text/javascript" src="lib/underscore.js"></script>
 		<script type="text/javascript" src="RulesController.js"></script>
@@ -11,7 +12,9 @@
 			<div id="headings">
 				<span class="from">From</span><span class="seperator">&nbsp;</span><span class="to">To</span>
 			</div>
-			<p ng-if="!rules.length" id="no-rules">You have no redirect rules at the moment so why don't you go ahead and <em class="switcheroo">Switcheroo</em>.</p>
+			<p ng-if="!rules.length" id="no-rules">
+				You have no redirect rules at the moment so why don't you go ahead and <em class="switcheroo">Switcheroo</em>.
+			</p>
 			<ul id="rules" ng-repeat="rule in rules">
 				<li>
 					<span class="from" ng-if="!isEditing">{{rule.from}}</span>
