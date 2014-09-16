@@ -1,0 +1,4 @@
+Switcheroo
+==========
+
+Chrome redirects extension.
