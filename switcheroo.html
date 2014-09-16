@@ -1,4 +1,4 @@
-<html ng-app="switcheroo">
+<html ng-app="switcheroo" ng-csp>
 	<head>
 		<title>Switcheroo Redirector</title>
 		<style>
@@ -16,26 +16,26 @@
 			.edit-rule .seperator {padding-right: 18px;}
 			#headings { background-color: #69F; border-radius: 5px 5px 0 0; }
 		</style>
-		<script type="text/javascript" src="jquery.js"></script>
-		<script type="text/javascript" src="angular.js"></script>
-		<script type="text/javascript" src="switcheroo-ui.js"></script>
+		<script type="text/javascript" src="lib/angular.js"></script>
+		<script type="text/javascript" src="lib/underscore.js"></script>
+		<script type="text/javascript" src="RulesController.js"></script>
 	</head>
 	<body>
 		<div id="container" ng-controller="RulesController">
 			<div id="headings">
 				<span class="from">From</span><span class="seperator">&nbsp;</span><span class="to">To</span>
 			</div>
-			<p id="no-rules">You have no redirect rules at the moment so why don't you go ahead and <em class="switcheroo">Switcheroo</em>.</p>
+			<p ng-if="!rules.length" id="no-rules">You have no redirect rules at the moment so why don't you go ahead and <em class="switcheroo">Switcheroo</em>.</p>
 			<ul id="rules" ng-repeat="rule in rules">
 				<li class="true">
-					<span class="from" ng-hide="isEditing">{{rule.from}}</span>
-					<input type="text" ng-show="isEditing" id="from" ng-model="editFrom" />
+					<span class="from" ng-if="!isEditing">{{rule.from}}</span>
+					<input type="text" ng-if="isEditing" ng-model="rule.from" />
 					<span class="seperator">&gt;</span>
-					<span class="to" ng-hide="isEditing">{{rule.to}}</span>
-					<input type="text" ng-show="isEditing" id="from" ng-model="editTo" />
+					<span class="to" ng-if="!isEditing">{{rule.to}}</span>
+					<input type="text" ng-if="isEditing" ng-model="rule.to" />
 					<input type="checkbox" class="active" name="active" ng-model="rule.isActive" />
-					<a href="#" class="editRuleButton" ng-click="isEditing = true" ng-hide="isEditing">Edit</a>
-					<a href="#" class="updateRuleButton" ng-click="update($index)" ng-show="isEditing">Edit</a>
+					<a href="#" class="editRuleButton" ng-click="enableEditing()" ng-if="!isEditing">Edit</a>
+					<a href="#" class="updateRuleButton" ng-click="disableEditing()" ng-if="isEditing">Update</a>
 					<a href="#" class="removeRuleButton" ng-click="remove($index)">Remove</a>
 				</li>
 			</ul>
@@ -47,7 +47,7 @@
 					<input id="addRuleButton" type="submit" value="Add" name="AddRule" />
 				</div>
 				<div>
-					<input id="removeAllRulesButton" type="button" value="Remove All" name="RemoveAll" ng-click="clear" />
+					<input id="removeAllRulesButton" type="button" value="Remove All" name="RemoveAll" ng-click="clear()" />
 				</div>
 			</form>
 		</div>

@@ -1,6 +1,7 @@
 angular.module('switcheroo', [])
 .controller('RulesController', ['$scope', function($scope) {
 	$scope.rules = chrome.runtime.getBackgroundPage().ruleMatcher.rules;
+	$scope.isEditing = false;
 
 	$scope.add = function() {
 		$scope.rules.push({
@@ -8,6 +9,9 @@ angular.module('switcheroo', [])
 			to: $scope.to,
 			isActive: true
 		});
+
+		$scope.from = '';
+		$scope.to = '';
 	};
 
 	$scope.remove = function(index) {
@@ -16,6 +20,14 @@ angular.module('switcheroo', [])
 
 	$scope.clear = function() {
 		$scope.rules = [];
+	};
+
+	$scope.enableEditing = function() {
+		$scope.isEditing = true;
+	};
+
+	$scope.disableEditing = function() {
+		$scope.isEditing = false;
 	};
 
 	$scope.shortenText = function (text){
@@ -27,7 +39,7 @@ angular.module('switcheroo', [])
 		return text;
 	};
 
-	$scope.$watchCollection('rules', function(oldValue, newValue){
-		localStorage['rules'] = newValue;
-	});
+	$scope.$watch('rules', function(oldValue, newValue){
+		localStorage['rules'] = JSON.stringify(newValue);
+	}, true);
 }]);
