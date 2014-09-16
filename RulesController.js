@@ -1,6 +1,6 @@
 angular.module('switcheroo', [])
 .controller('RulesController', ['$scope', function($scope) {
-	$scope.rules = chrome.runtime.getBackgroundPage().ruleMatcher.rules;
+	$scope.rules = chrome.extension.getBackgroundPage().ruleMatcher.rules;
 	$scope.isEditing = false;
 
 	$scope.add = function() {
