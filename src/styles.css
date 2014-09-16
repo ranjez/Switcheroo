@@ -1,0 +1,14 @@
+
+body{width:650px; font-family: sans-serif;}
+a, span {padding: 5px;}
+ul { list-style-type: none; padding: 0; margin: 0 0 5px 0;}
+#new-rule input[type=text], .edit-rule input[type=text]{width:220px; margin: 0 5px;}
+.from, .to { font-family: monospace; width: 223px; display: inline-block; }
+.seperator { font-weight: bold; color: red; }
+#headings span { font-family: Arial; font-weight: bold; color: #def; padding: 5px 10px;}
+#no-rules { padding: 10px; color: #666; }
+.switcheroo {color: red;}
+#removeAllRulesButton { margin: 10px; }
+#new-rule, .edit-rule { margin-left: 3px; }
+.edit-rule .seperator {padding-right: 18px;}
+#headings { background-color: #69F; border-radius: 5px 5px 0 0; }
