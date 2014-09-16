@@ -1,5 +1,5 @@
 var ruleMatcher,
-	rules;
+rules;
 
 if(localStorage['rules']){
 	rules = JSON.parse(localStorage['rules']);
@@ -26,17 +26,17 @@ var RuleMatcher = function(rules){
 				redirectUrl : request.url.replace(rule.from, rule.to)
 			};
 		}
-
-		chrome.webRequest.onBeforeRequest.addListener(
-			function(details) {
-				return redirectToMatchingRule(details);
-			}, 
-			{
-				urls : ["<all_urls>"]
-			}, 
-			["blocking"]
-		);
 	};
 };
 
 ruleMatcher = new RuleMatcher(rules);
+
+chrome.webRequest.onBeforeRequest.addListener(
+	function(details) {
+		return ruleMatcher.redirectOnMatch(details);
+	}, 
+	{
+		urls : ["<all_urls>"]
+	}, 
+	["blocking"]
+	);

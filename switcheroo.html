@@ -1,21 +1,7 @@
 <html ng-app="switcheroo" ng-csp>
 	<head>
 		<title>Switcheroo Redirector</title>
-		<style>
-			body{width:650px; font-family: sans-serif;}
-			a, span {padding: 10px;}
-			ul { list-style-type: none; padding: 0; margin: 0 0 5px 0;}
-			#new-rule input[type=text], .edit-rule input[type=text]{width:220px; margin: 0 5px;}
-			.from, .to { font-family: monospace; width: 220px; display: inline-block; }
-			.seperator { font-weight: bold; color: red; }
-			#headings span { font-family: Arial; font-weight: bold; color: #def; padding: 5px 10px;}
-			#no-rules { padding: 10px; color: #666; }
-			.switcheroo {color: red;}
-			#removeAllRulesButton { margin: 10px; }
-			#new-rule, .edit-rule { margin-left: 3px; }
-			.edit-rule .seperator {padding-right: 18px;}
-			#headings { background-color: #69F; border-radius: 5px 5px 0 0; }
-		</style>
+		<link rel="stylesheet" type="text/css" href="styles.css">>
 		<script type="text/javascript" src="lib/angular.js"></script>
 		<script type="text/javascript" src="lib/underscore.js"></script>
 		<script type="text/javascript" src="RulesController.js"></script>
@@ -27,7 +13,7 @@
 			</div>
 			<p ng-if="!rules.length" id="no-rules">You have no redirect rules at the moment so why don't you go ahead and <em class="switcheroo">Switcheroo</em>.</p>
 			<ul id="rules" ng-repeat="rule in rules">
-				<li class="true">
+				<li>
 					<span class="from" ng-if="!isEditing">{{rule.from}}</span>
 					<input type="text" ng-if="isEditing" ng-model="rule.from" />
 					<span class="seperator">&gt;</span>
