@@ -10,6 +10,6 @@
 	},
 	"permissions": ["webRequest", "webRequestBlocking", "<all_urls>", "tabs"],
 	"background": {
-		"scripts": ["lib/underscore.js", "RuleMatcher.js"]
+		"scripts": ["lib/underscore.js", "RulesService.js", "RuleMatcher.js", "background.js"]
 	}
 }

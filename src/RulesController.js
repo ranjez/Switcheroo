@@ -1,6 +1,6 @@
-angular.module('switcheroo', [])
-.controller('RulesController', ['$scope', function($scope) {
-	$scope.rules = chrome.extension.getBackgroundPage().ruleMatcher.rules;
+angular.module('switcheroo')
+.controller('RulesController', ['$scope', 'RulesService', function($scope, rulesService) {
+	$scope.rules = chrome.extension.getBackgroundPage().rules;
 	$scope.isEditing = false;
 
 	$scope.add = function() {
@@ -40,6 +40,6 @@ angular.module('switcheroo', [])
 	};
 
 	$scope.$watch('rules', function(oldValue, newValue){
-		localStorage['rules'] = JSON.stringify(newValue);
+		rulesService.set(newValue);
 	}, true);
 }]);
