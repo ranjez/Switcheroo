@@ -5,11 +5,12 @@ describe("Switcheroo", function(){
 	})
 
 	describe("RulesController", function() {
-		beforeEach(inject(function ($rootScope, $controller) {
+		beforeEach(inject(function ($rootScope, $controller, RulesService) {
 			scope = $rootScope.$new();
 
 			sut = $controller('RulesController', {
-	                '$scope': scope
+	                '$scope': scope,
+	                'RulesService': RulesService
 	            });
 	    }));
 

@@ -1,23 +1,18 @@
-(function(){
-    var ruleMatcher,
-        rules;
+var ruleMatcher,
+    rulesService,
+    rules;
 
-    if(localStorage['rules']){
-        rules = JSON.parse(localStorage['rules']);
-    }
-    else{
-        rules = [];
-    }
+rulesService = RulesServiceFactory.getRulesService();
+rules = rulesService.get();
 
-    ruleMatcher = new RuleMatcher(rules);
+ruleMatcher = new RuleMatcher(rules);
 
-    chrome.webRequest.onBeforeRequest.addListener(
-        function(details) {
-            return ruleMatcher.redirectOnMatch(details);
-        }, 
-        {
-            urls : ["<all_urls>"]
-        }, 
-        ["blocking"]
-    );
-})();
+chrome.webRequest.onBeforeRequest.addListener(
+    function(details) {
+        return ruleMatcher.redirectOnMatch(details);
+    }, 
+    {
+        urls : ["<all_urls>"]
+    }, 
+    ["blocking"]
+);

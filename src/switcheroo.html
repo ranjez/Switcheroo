@@ -5,6 +5,8 @@
 		<link rel="stylesheet" type="text/css" href="styles.css">
 		<script type="text/javascript" src="lib/angular.js"></script>
 		<script type="text/javascript" src="lib/underscore.js"></script>
+		<script type="text/javascript" src="RulesService.js"></script>
+		<script type="text/javascript" src="app.js"></script>
 		<script type="text/javascript" src="RulesController.js"></script>
 	</head>
 	<body>
@@ -17,10 +19,10 @@
 			</p>
 			<ul id="rules" ng-repeat="rule in rules">
 				<li>
-					<span class="from" ng-if="!isEditing">{{rule.from}}</span>
+					<span class="from" ng-if="!isEditing" title="{{rule.from}}">{{shortenText(rule.from)}}</span>
 					<input type="text" ng-if="isEditing" ng-model="rule.from" />
 					<span class="seperator">&gt;</span>
-					<span class="to" ng-if="!isEditing">{{rule.to}}</span>
+					<span class="to" ng-if="!isEditing" title="{{rule.to}}">{{shortenText(rule.to)}}</span>
 					<input type="text" ng-if="isEditing" ng-model="rule.to" />
 					<input type="checkbox" class="active" name="active" ng-model="rule.isActive" />
 					<a href="#" class="editRuleButton" ng-click="enableEditing()" ng-if="!isEditing">Edit</a>
