@@ -8,7 +8,7 @@
 		"default_title": "Add switcheroo rules.",
 		"default_popup": "switcheroo.html"
 	},
-	"permissions": ["webRequest", "webRequestBlocking", "<all_urls>", "tabs"],
+	"permissions": ["webRequest", "webRequestBlocking", "<all_urls>", "tabs", "storage"],
 	"background": {
 		"scripts": ["lib/underscore.js", "RulesService.js", "RuleMatcher.js", "background.js"]
 	}
