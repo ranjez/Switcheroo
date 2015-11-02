@@ -32,6 +32,16 @@ describe("RuleMatcher", function() {
     expect(sut.redirectOnMatch(request)).toEqual({ redirectUrl: 'http://bard.com' });
   });
 
+  it('given request url should redirect to rule with regexp matching', function(){
+    sut = new RuleMatcher([
+      givenRule('fo+', 'bar', true),
+    ]);
+
+    var request = givenRequest(1, 'http://food.com');
+
+    expect(sut.redirectOnMatch(request)).toEqual({ redirectUrl: 'http://bard.com' });
+  });
+
   it('given request url should redirect to first matching active rule', function(){
     sut = new RuleMatcher([
       givenRule('foo', 'bar', false),
