@@ -4,16 +4,17 @@ var RuleMatcher = function(rules){
     this.rules = rules;
 
     this.redirectOnMatch = function(request){
-        var rule = _.find(rules, function(rule){ 
-            return rule.isActive 
-            && request.url.indexOf(rule.from) > -1 
-            && request.requestId !== lastRequestId; 
+        var rule = _.find(rules, function(rule){
+            var match = new RegExp(rule.from);
+            return rule.isActive && match.test(request.url)  &&
+                request.requestId !== lastRequestId;
         });
 
         if(rule){
             lastRequestId = request.requestId;
+            var match = new RegExp(rule.from);
             return {
-                redirectUrl : request.url.replace(rule.from, rule.to)
+                redirectUrl : request.url.replace(match, rule.to)
             };
         }
     };
