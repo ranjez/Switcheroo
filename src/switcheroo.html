@@ -17,7 +17,7 @@
 			<p ng-if="!rules.length" id="no-rules">
 				You have no redirect rules at the moment so why don't you go ahead and <em class="switcheroo">Switcheroo</em>.
 			</p>
-			<ul id="rules" ng-repeat="rule in rules">
+			<ul id="rules" ng-repeat="rule in rules track by $index">
 				<li>
 					<span class="from" ng-if="!isEditing" title="{{rule.from}}">{{shortenText(rule.from)}}</span>
 					<input type="text" ng-if="isEditing" ng-model="rule.from" />
